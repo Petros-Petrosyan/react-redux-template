@@ -15,22 +15,30 @@ function App() {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
+
     if (!name) {
-      alert("Type name");
-    } else if (users.includes(name)) {
-      alert("User is exist");
-    } else {
-      dispatch(addUserStart());
-      setTimeout(() => {
-        if (name === "error") {
-          dispatch(addUserFail());
-          alert("Fail");
-        } else {
-          dispatch(addUserSuccess(name));
-        }
-      }, 2000);
-      setName("");
+      alert("Please enter a name");
+      return;
     }
+
+    if (users.includes(name)) {
+      alert("User already exists");
+      return;
+    }
+
+    dispatch(addUserStart());
+
+    // Request imitation
+    setTimeout(() => {
+      if (name === "error") {
+        dispatch(addUserFail());
+        alert("Failed to add user");
+      } else {
+        dispatch(addUserSuccess(name));
+      }
+
+      setName("");
+    }, 1000);
   };
 
   const onFormChange = (event) => {
